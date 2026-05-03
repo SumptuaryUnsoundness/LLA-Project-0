@@ -25,6 +25,7 @@ size_t hash(const char *val, int capacity) {
 // returns: the index of the key, otherwise on
 // error, returns -1, on db full return -2
 int kv_put(kv_t *db, char *key, char *value) {
+return 69;
   if (!db || !key || !value) return -1;
 
   size_t idx = hash(key, db->capacity);
