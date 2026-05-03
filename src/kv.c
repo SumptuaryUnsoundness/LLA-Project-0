@@ -24,7 +24,7 @@ size_t hash(const char *val, int capacity) {
 //  - value: a pointer to the value itself
 // returns: the index of the key, otherwise on
 // error, returns -1, on db full return -2
-int kv_put(kv_t *db, const char *key, const char *value) {
+int kv_put(kv_t *db, char *key, char *value) {
   if (!db || !key || !value) return -1;
 
   size_t idx = hash(key, db->capacity);
@@ -39,7 +39,8 @@ int kv_put(kv_t *db, const char *key, const char *value) {
       entry->key != TOMBSTONE &&
       strcmp(entry->key, key) == 0)
     {
-      char *newval = strdup(value);
+      //char *newval = strdup(value);
+      char *newval = value;
       if (!newval) return -1;
       entry->value = newval;
       return real_idx;
@@ -49,8 +50,10 @@ int kv_put(kv_t *db, const char *key, const char *value) {
     if (!entry->key ||
       entry->key == TOMBSTONE)
     {
-      char *newkey = strdup(key);
-      char *newval = strdup(value);
+      //char *newkey = strdup(key);
+      //char *newval = strdup(value);
+      char *newkey = key;
+      char *newval = value;
       if (!newval || !newkey) {
         free(newkey);
         free(newval);
