@@ -39,8 +39,7 @@ int kv_put(kv_t *db, char *key, char *value) {
       entry->key != TOMBSTONE &&
       strcmp(entry->key, key) == 0)
     {
-      //char *newval = strdup(value);
-      char *newval = value;
+      char *newval = strdup(value);
       if (!newval) return -1;
       entry->value = newval;
       return real_idx;
@@ -50,10 +49,8 @@ int kv_put(kv_t *db, char *key, char *value) {
     if (!entry->key ||
       entry->key == TOMBSTONE)
     {
-      //char *newkey = strdup(key);
-      //char *newval = strdup(value);
-      char *newkey = key;
-      char *newval = value;
+      char *newkey = strdup(key);
+      char *newval = strdup(value);
       if (!newval || !newkey) {
         free(newkey);
         free(newval);
