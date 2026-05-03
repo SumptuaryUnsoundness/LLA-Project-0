@@ -41,6 +41,7 @@ int kv_put(kv_t *db, char *key, char *value) {
     {
       char *newval = strdup(value);
       if (!newval) return -1;
+      free(entry->value);
       entry->value = newval;
       return 0; //real_idx;
     }
@@ -72,7 +73,7 @@ char *kv_get(kv_t *db, char *key) {
 
   for (
     size_t idx = hash(key, db->capacity);
-    idx < db->capacity - 1;
+    idx < db->capacity;
     idx++
   ) {
     kv_entry_t *entry = &(db->entries[idx]);
@@ -97,7 +98,7 @@ int kv_delete(kv_t *db, char *key) {
 
   for (
     size_t idx = hash(key, db->capacity);
-    idx < db->capacity - 1;
+    idx < db->capacity;
     idx++
   ) {
     kv_entry_t *entry = &(db->entries[idx]);
@@ -122,26 +123,36 @@ int kv_delete(kv_t *db, char *key) {
   return -1;
 }
 
+void kv_free(kv_t *db) {
+  for (size_t i = 0; i < db->capacity; i++) {
+    kv_entry_t *entry = &db->entries[i];
+
+    if (entry->key &&
+      entry->key != TOMBSTONE)
+    {
+      free(entry->key);
+      free(entry->value);
+    }
+  }
+  free(db->entries);
+  free(db);
+}
+
 kv_t *kv_init(size_t capacity) {
   if (capacity == 0) return NULL;
 
-  kv_t *table = malloc(sizeof(kv_t));
-  if (table == NULL) {
+  kv_t *db = malloc(sizeof(kv_t));
+  if (db == NULL) {
     return NULL;
   }
 
-  table->capacity = capacity;
-  table->count = 0;
+  db->capacity = capacity;
+  db->count = 0;
 
-  table->entries = calloc(sizeof(kv_entry_t), capacity);
-  if (table->entries == NULL) {
+  db->entries = calloc(sizeof(kv_entry_t), capacity);
+  if (db->entries == NULL) {
     return NULL;
   }
 
-  return table;
-}
-
-void kv_free(kv_t *table) {
-  free(table->entries);
-  free(table);
+  return db;
 }
