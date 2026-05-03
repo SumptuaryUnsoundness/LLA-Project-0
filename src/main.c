@@ -3,7 +3,7 @@
 #include <assert.h>
 
 int main() {
-  kv_t *db = kv_init(2);
+  kv_t *db = kv_init(16);
   printf("%p\n", db);
   printf("%ld\n", db->capacity);
 
