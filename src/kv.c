@@ -60,8 +60,7 @@ int kv_put(kv_t *db, char *key, char *value) {
       entry->value = newval;
       db->count++;
       return real_idx;
-   }
-
+    }
   }
 
   // the db is occupied

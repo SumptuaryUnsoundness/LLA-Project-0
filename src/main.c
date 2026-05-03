@@ -3,13 +3,13 @@
 #include <assert.h>
 
 int main() {
-  kv_t *db = kv_init(1024);
+  kv_t *db = kv_init(2);
   printf("%p\n", db);
   printf("%ld\n", db->capacity);
 
-  kv_put(db, "hehe", "haha");
-  kv_put(db, "hehe", "hoho");
-  kv_put(db, "lala", "test");
+  printf("k %i\n", kv_put(db, "hehe", "haha"));
+  printf("k %i\n", kv_put(db, "hehe", "hoho"));
+  printf("k %i\n", kv_put(db, "lala", "test"));
 
   for (int i = 0; i < db->capacity; i++) {
     if (db->entries[i].key) {
