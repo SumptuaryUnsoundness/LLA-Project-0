@@ -1,8 +1,6 @@
 #include <kv.h>
 #include <string.h>
 
-#define TOMBSTONE (void*)0x1
-
 size_t hash(const char *val, int capacity) {
   size_t hash = 0x13371337deadbeef;
 
