@@ -1,4 +1,3 @@
-#ifdef FOOBAR
 #ifndef KV_H
 #define KV_H
 
@@ -23,5 +22,4 @@ char  *kv_get(kv_t *db, const char *key);
 int    kv_delete(kv_t *db, const char *key);
 void   kv_free(kv_t *db);
 
-#endif
 #endif
