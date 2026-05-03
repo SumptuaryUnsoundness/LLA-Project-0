@@ -92,6 +92,35 @@ char *kv_get(kv_t *db, char *key) {
   return NULL;
 }
 
+int kv_delete(kv_t *db, char *key) {
+  if (!db || !key) return -1;
+
+  for (
+    size_t idx = hash(key, db->capacity);
+    idx < db->capacity - 1;
+    idx++
+  ) {
+    kv_entry_t *entry = &(db->entries[idx]);
+
+    if (!entry->key) {
+      break;
+    }
+
+    if (entry->key &&
+      entry->key != TOMBSTONE &&
+      strcmp(entry->key, key) == 0)
+    {
+      free(entry->key);
+      free(entry->value);
+      entry->key = TOMBSTONE;
+      entry->value = NULL;
+      return 0;
+    }
+  }
+
+  return -1;
+}
+
 kv_t *kv_init(size_t capacity) {
   if (capacity == 0) return NULL;
 

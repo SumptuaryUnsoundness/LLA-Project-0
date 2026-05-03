@@ -14,11 +14,14 @@ int main() {
   printf("value: %s\n", kv_get(db, "hehe"));
   printf("value: %s\n", kv_get(db, "lala"));
 
-  for (int i = 0; i < db->capacity; i++) {
-    if (db->entries[i].key) {
-      printf("[%d] %s: %s\n", i, db->entries[i].key, db->entries[i].value);
-    }
-  }
+  kv_delete(db, "lala");
+  kv_get(db, "lala");
+
+  // for (int i = 0; i < db->capacity; i++) {
+  //   if (db->entries[i].key) {
+  //     printf("[%d] %s: %s\n", i, db->entries[i].key, db->entries[i].value);
+  //   }
+  // }
 
   kv_free(db);
   return 0;
